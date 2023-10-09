@@ -1,0 +1,9 @@
+{
+  "version": "v1",
+  "packages": {
+    "@lamport-center/sdk": {
+      "signature": "80fd6bffa778d8150ef80ed177f0a95e",
+      "file": true
+    }
+  }
+}

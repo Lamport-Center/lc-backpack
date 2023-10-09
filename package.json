@@ -76,6 +76,7 @@
     "yarn": "^3.0.0"
   },
   "dependencies": {
+    "@lamport-center/sdk": "file:.yalc/@lamport-center/sdk",
     "patch-package": "^6.5.0"
   }
 }

@@ -166,6 +166,16 @@ function ConfirmSendSolana({
   );
 }
 
+const VerifyNetworkFeeWithLamportCenter = () => {
+  const theme = useCustomTheme();
+
+  return (
+    <Typography>
+      0.000005 <span style={{ color: theme.custom.colors.secondary }}>SOL</span>
+    </Typography>
+  );
+};
+
 const ConfirmSendSolanaTable: React.FC<{
   destinationAddress: string;
   destinationUser?: { username: string; image: string; walletName?: string };
@@ -217,12 +227,7 @@ const ConfirmSendSolanaTable: React.FC<{
     },
     "Network fee": {
       onClick: () => {},
-      detail: (
-        <Typography>
-          0.000005{" "}
-          <span style={{ color: theme.custom.colors.secondary }}>SOL</span>
-        </Typography>
-      ),
+      detail: <VerifyNetworkFeeWithLamportCenter />,
       classes: { root: classes.confirmTableListItem },
       button: false,
     },

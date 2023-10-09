@@ -9125,6 +9125,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@lamport-center/sdk@file:.yalc/@lamport-center/sdk::locator=backpack%40workspace%3A.":
+  version: 1.0.0
+  resolution: "@lamport-center/sdk@file:.yalc/@lamport-center/sdk#.yalc/@lamport-center/sdk::hash=76cd96&locator=backpack%40workspace%3A."
+  dependencies:
+    "@solana/web3.js": ^1.78.7
+    axios: ^1.5.1
+    notiflix: ^3.2.6
+  checksum: 3ef85b62b8115e2d1309e47e72b04cb05789fb0cd284e16bf3595b9cb0ba001c920630a6bda197f8fc0a5f732c0acf3fa16f7f247fa69b84417b82a1c5d6720f
+  languageName: node
+  linkType: hard
+
 "@ledgerhq/cryptoassets@npm:^6.27.1":
   version: 6.37.0
   resolution: "@ledgerhq/cryptoassets@npm:6.37.0"
@@ -18174,6 +18185,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"axios@npm:^1.5.1":
+  version: 1.5.1
+  resolution: "axios@npm:1.5.1"
+  dependencies:
+    follow-redirects: ^1.15.0
+    form-data: ^4.0.0
+    proxy-from-env: ^1.1.0
+  checksum: 4444f06601f4ede154183767863d2b8e472b4a6bfc5253597ed6d21899887e1fd0ee2b3de792ac4f8459fe2e359d2aa07c216e45fd8b9e4e0688a6ebf48a5a8d
+  languageName: node
+  linkType: hard
+
 "axobject-query@npm:^3.1.1":
   version: 3.1.1
   resolution: "axobject-query@npm:3.1.1"
@@ -18705,6 +18727,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "backpack@workspace:."
   dependencies:
+    "@lamport-center/sdk": "file:.yalc/@lamport-center/sdk"
     "@manypkg/cli": ^0.19.1
     "@parcel/packager-ts": 2.8.3
     "@parcel/transformer-typescript-types": 2.8.3
@@ -34522,6 +34545,13 @@ __metadata:
     web-push: ^3.5.0
   languageName: unknown
   linkType: soft
+
+"notiflix@npm:^3.2.6":
+  version: 3.2.6
+  resolution: "notiflix@npm:3.2.6"
+  checksum: 26645bce18bfcbfbd4c44c7145a56cd69138d364897a52d022cb34005e619d178419883c35c534007d28f9ff10091f179c0b55913c0b11bbee732871401e1ab7
+  languageName: node
+  linkType: hard
 
 "npm-conf@npm:^1.1.0":
   version: 1.1.3

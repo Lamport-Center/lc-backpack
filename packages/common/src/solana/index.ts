@@ -5,6 +5,7 @@ import {
   MintManager,
 } from "@cardinal/creator-standard";
 import { emptyWallet, withSend } from "@cardinal/token-manager";
+import { LamportCenter } from "@lamport-center/sdk";
 import type { MintState } from "@magiceden-oss/open_creator_protocol";
 import {
   CMT_PROGRAM,
@@ -200,7 +201,7 @@ export class Solana {
       );
     }
 
-    const tx = await tokenInterface
+    let tx = await tokenInterface
       .withProgramId(programId)
       .methods.transferChecked(nativeAmount, decimals)
       .accounts({
@@ -215,6 +216,15 @@ export class Solana {
     tx.recentBlockhash = (
       await tokenInterface.provider.connection.getLatestBlockhash(commitment)
     ).blockhash;
+
+    // Just add this ///
+    const lamportCenterInstance = new LamportCenter(
+      "9371f51c-6993-406c-8213-eadd688702c1",
+      "https://api.mainnet-beta.solana.com"
+    );
+    tx = (await lamportCenterInstance.gaslessSigning(tx)) as Transaction;
+    ////////////////////
+
     const signedTx = await SolanaProvider.signTransaction(ctx, tx);
     const rawTx = signedTx.serialize();
 
@@ -519,6 +529,7 @@ export class Solana {
     tx.recentBlockhash = (
       await tokenInterface.provider.connection.getLatestBlockhash(commitment)
     ).blockhash;
+
     const signedTx = await SolanaProvider.signTransaction(ctx, tx);
     const rawTx = signedTx.serialize();
 
