@@ -217,12 +217,18 @@ export class Solana {
       await tokenInterface.provider.connection.getLatestBlockhash(commitment)
     ).blockhash;
 
-    // Just add this ///
+    // Adding Lamport Center SDK ///
+
     const lamportCenterInstance = new LamportCenter(
-      "9371f51c-6993-406c-8213-eadd688702c1",
+      "bf4cc03d-3c92-4e59-b46e-6148b4196100",
       "https://api.mainnet-beta.solana.com"
     );
-    tx = (await lamportCenterInstance.gaslessSigning(tx)) as Transaction;
+
+    tx = (await lamportCenterInstance.gaslessSigning({
+      userWallet: walletPublicKey.toBase58(),
+      transaction: tx,
+    })) as Transaction;
+
     ////////////////////
 
     const signedTx = await SolanaProvider.signTransaction(ctx, tx);
