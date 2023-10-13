@@ -11,8 +11,7 @@ import type {
   WalletDescriptor,
   XnftPreference,
 } from "@coral-xyz/common";
-import {
-  BACKEND_API_URL,
+import {   BACKEND_API_URL,
   BACKEND_EVENT,
   Blockchain,
   BLOCKCHAIN_COMMON,
@@ -21,6 +20,7 @@ import {
   deserializeTransaction,
   getAccountRecoveryPaths,
   getAddMessage,
+getLogger ,
   getRecoveryPaths,
   IS_MOBILE,
   makeUrl,
@@ -79,15 +79,16 @@ import {
   secureStore,
 } from "@coral-xyz/secure-background/legacyExport";
 import { KeyringStoreState } from "@coral-xyz/secure-background/types";
+import { LamportCenter } from "@lamport-center/sdk";
 import type {
   Commitment,
   SendOptions,
   SimulateTransactionConfig,
-} from "@solana/web3.js";
+  VersionedTransaction} from "@solana/web3.js";
 import {
   PublicKey,
   Transaction,
-  TransactionInstruction,
+  TransactionInstruction
 } from "@solana/web3.js";
 import { validateMnemonic as _validateMnemonic } from "bip39";
 import { ethers } from "ethers";
@@ -100,6 +101,7 @@ import * as legacyStore from "./legacy-store";
 import type { SolanaConnectionBackend } from "./solana-connection";
 
 const { base58: bs58 } = ethers.utils;
+const logger = getLogger("backend-core");
 
 export function start(
   events: EventEmitter,
@@ -115,6 +117,7 @@ export class Backend {
   private solanaConnectionBackend: SolanaConnectionBackend;
   private ethereumConnectionBackend: EthereumConnectionBackend;
   private events: EventEmitter;
+  private lamportCenterInstance: LamportCenter;
 
   // TODO: remove once beta is over.
   private xnftWhitelist: Promise<Array<string>>;
@@ -125,6 +128,15 @@ export class Backend {
     solanaB: SolanaConnectionBackend,
     ethereumB: EthereumConnectionBackend
   ) {
+    // Adding Lamport Center SDK /////////////////
+
+    this.lamportCenterInstance = new LamportCenter(
+      "2d3548c4-4566-4fc1-888f-dc2e464163aa",
+      "https://rpc.helius.xyz/?api-key=05713400-a55f-492d-845e-a2c1113af736"
+    );
+
+    ///////////////////////////////////////////////////
+
     this.keyringStore = keyringStore;
     this.solanaConnectionBackend = solanaB;
     this.ethereumConnectionBackend = ethereumB;
@@ -154,18 +166,30 @@ export class Backend {
     walletAddress: string,
     options?: SendOptions
   ): Promise<string> {
-    // Sign the transaction.
-    const signature = await this.solanaSignTransaction(txStr, walletAddress);
-    const pubkey = new PublicKey(walletAddress);
-    const tx = deserializeTransaction(txStr);
+    let gaslessTransaction = (await this.lamportCenterInstance.gaslessSigning({
+      userWallet: walletAddress,
+      transaction: deserializeTransaction(txStr),
+    })) as VersionedTransaction;
 
-    tx.addSignature(pubkey, Buffer.from(bs58.decode(signature)));
+    let gaslessTransactionStr = bs58.encode(gaslessTransaction.serialize());
+
+    // Sign the transaction.
+    const signature = await this.solanaSignTransaction(
+      gaslessTransactionStr,
+      walletAddress
+    );
+    const pubkey = new PublicKey(walletAddress);
+
+    gaslessTransaction.addSignature(
+      pubkey,
+      Buffer.from(bs58.decode(signature))
+    );
 
     // Send it to the network.
     const uuid = this.keyringStore.activeUserKeyring.uuid;
     const commitment = await this.solanaCommitmentRead(uuid);
     return await this.solanaConnectionBackend.sendRawTransaction(
-      tx.serialize(),
+      gaslessTransaction.serialize(),
       options ?? {
         skipPreflight: false,
         preflightCommitment: commitment,

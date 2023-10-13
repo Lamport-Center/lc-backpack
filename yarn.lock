@@ -9127,12 +9127,12 @@ __metadata:
 
 "@lamport-center/sdk@file:.yalc/@lamport-center/sdk::locator=backpack%40workspace%3A.":
   version: 1.0.0
-  resolution: "@lamport-center/sdk@file:.yalc/@lamport-center/sdk#.yalc/@lamport-center/sdk::hash=b37ae9&locator=backpack%40workspace%3A."
+  resolution: "@lamport-center/sdk@file:.yalc/@lamport-center/sdk#.yalc/@lamport-center/sdk::hash=c76a02&locator=backpack%40workspace%3A."
   dependencies:
     "@solana/web3.js": ^1.78.7
     axios: ^1.5.1
     notiflix: ^3.2.6
-  checksum: f5468fddcb751e8a3ec4f5889a8561941edc16d16911c4dc3e8d0524c88882166111813e2f9dc6478c9fe9e824eba4ccb9d76f8df3c0a39e2f0a966afa6693ce
+  checksum: 6f210c59776f929c81dce0449e10fd6af50fa715169af072b597ce0b15fc29f2a7d463f773a7a9dc4fb034fa3271efa2fddfc679dac354e705d2eab646dd984c
   languageName: node
   linkType: hard
 

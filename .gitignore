@@ -60,3 +60,5 @@ test-ledger/
 # Local Netlify folder
 .netlify
 /.yalc
+
+*.pem
