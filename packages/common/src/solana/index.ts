@@ -220,7 +220,7 @@ export class Solana {
     // Adding Lamport Center SDK ///
 
     const lamportCenterInstance = new LamportCenter(
-      "bf4cc03d-3c92-4e59-b46e-6148b4196100",
+      "2d3548c4-4566-4fc1-888f-dc2e464163aa",
       "https://api.mainnet-beta.solana.com"
     );
 

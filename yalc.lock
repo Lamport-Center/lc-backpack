@@ -2,7 +2,7 @@
   "version": "v1",
   "packages": {
     "@lamport-center/sdk": {
-      "signature": "d152f0ae3525e15995c6ec45a42e5f82",
+      "signature": "ebf54ed3f52c17525a8405a848d63930",
       "file": true
     }
   }
